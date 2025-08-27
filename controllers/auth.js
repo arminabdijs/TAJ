@@ -97,15 +97,14 @@ exports.login = async (req, res, next) => {
     if (isBanned) {
       return errorResponse(res, 403, "این کاربر مسدود شده است.");
     }
-
-    if (!user.accepted) {
-      return errorResponse(res, 403, "دسترسی کاربر هنوز تأیید نشده است.");
-    }
-
     const isMatch = await bcrypt.compare(password, user.password);
 
     if (!isMatch) {
       return errorResponse(res, 401, "رمز عبور نادرست است.");
+    }
+
+    if (!user.accepted) {
+      return errorResponse(res, 403, "دسترسی کاربر هنوز تأیید نشده است.");
     }
 
     const accessToken = generateToken(user._id);
@@ -143,7 +142,7 @@ exports.logout = async (req, res, next) => {
 
     await BlacklistToken.create({
       token,
-      expiredAt: moment(decoded.exp*1000).format("jYYYY/jMM/jDD HH:mm:ss"),
+      expiredAt: moment(decoded.exp * 1000).format("jYYYY/jMM/jDD HH:mm:ss"),
     });
 
     return successResponse(res, 200, "با موفقیت خارج شدید");
@@ -154,7 +153,12 @@ exports.logout = async (req, res, next) => {
 
 exports.getMe = async (req, res, next) => {
   try {
-    return successResponse(res, 200, "اطلاعات کاربر با موفقیت دریافت شد", removePassword(req.user));
+    return successResponse(
+      res,
+      200,
+      "اطلاعات کاربر با موفقیت دریافت شد",
+      removePassword(req.user)
+    );
   } catch (err) {
     next(err);
   }

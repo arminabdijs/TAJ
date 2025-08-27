@@ -6,6 +6,8 @@ const { errorHandler } = require("./middlewares/errorHandler");
 
 const authRouter = require("./routers/auth");
 const usersRouter = require("./routers/user");
+const categoryRouter =require("./routers/category")
+const coursesRouter =require("./routers/course")
 
 
 const path = require("path");
@@ -42,6 +44,8 @@ app.use((err, req, res, next) => {
 
 app.use("/api/auth",authRouter );
 app.use("/api/users",usersRouter );
+app.use("/api/category",categoryRouter );
+app.use("/api/courses",coursesRouter );
 
 
 

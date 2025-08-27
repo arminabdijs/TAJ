@@ -31,10 +31,17 @@ const updateSchema = Joi.object({
   username: Joi.string().min(3).max(100).messages({
     "string.base": "فیلد 'username' باید متن باشد.",
   }),
+
+  profile: Joi.string().messages({
+    "string.base": "فیلد 'profile' باید متن (مسیر عکس) باشد.",
+  }),
+
   password: Joi.string().min(8).max(24).messages({
     "string.min": "طول 'password' حداقل ۸ کاراکتر باشد.",
+    "string.max": "طول 'password' حداکثر ۲۴ کاراکتر باشد.",
   }),
 }).strict(true);
+
 
 
 const formatErrors = (error) =>

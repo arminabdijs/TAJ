@@ -5,17 +5,15 @@ const userSchema = new mongoose.Schema({
   username: { type: String, required: true },
   email: { type: String, required: true, unique: true },
   password: { type: String, required: true },
+  profile: {
+      type: String,
+      trim: true,
+      default:"/profiles/local/acter.svg"
+    },
   roles: {
     type: [String],
     required: true,
-    enum: [
-      "USER",
-      "SUPER_ADMIN",
-      "CONSULTANT",
-      "FINANCIAL",
-      "SUPPORT",
-      "TEACHER",
-    ],
+    enum: ["USER", "SUPER_ADMIN", "SUPPORT", "TEACHER"],
     default: ["USER"],
   },
   accepted: { type: Boolean, required: true, default: true },
